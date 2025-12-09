@@ -15,6 +15,7 @@ import comandosRespuesta.ComandoRespuestaAbandonar;
 import comandosRespuesta.ComandoRespuestaConfirmacionSolicitarFin;
 import comandosRespuesta.ComandoRespuestaReestablecer;
 import comandosRespuesta.ComandoRespuestaMovimiento;
+import comandosRespuesta.ComandoRespuestaObtenerJugadores;
 import comandosRespuesta.ComandoRespuestaSolicitarFin;
 import comandosRespuesta.ComandoRespuestaTomarFicha;
 import comandosRespuesta.ComandoTableroInvalido;
@@ -24,9 +25,13 @@ import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoConfirmacionAbandonar;
 import comandosSolicitud.ComandoConfirmacionSolicitarFin;
+import comandosSolicitud.ComandoObtenerJugadores;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoReestablecerTablero;
+import comandosSolicitud.ComandoRegistrarJugador;
+import comandosRespuesta.ComandoRegistroExitoso;
+import comandosRespuesta.ComandoRegistroFallido;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
 import comandosSolicitud.ComandoSolicitarFin;
 import comandosSolicitud.ComandoTerminarTurno;
@@ -88,6 +93,13 @@ public class Deserializador implements IReceptorExterno{
         
         registroComandos.put("ComandoPartidaGanada", ComandoPartidaGanada.class);
         registroComandos.put("ComandoJugadorPartidaGanada", ComandoJugadorPartidaGanada.class);
+        
+        //Comandos registrados por mi JUAN PABLO
+        registroComandos.put("ComandoRespuestaObtenerJugadores", ComandoRespuestaObtenerJugadores.class);
+        registroComandos.put("ComandoObtenerJugadores", ComandoObtenerJugadores.class);
+        registroComandos.put("ComandoRegistrarJugador", ComandoRegistrarJugador.class);
+        registroComandos.put("ComandoRegistroExitoso", ComandoRegistroExitoso.class);
+        registroComandos.put("ComandoRegistroFallido", ComandoRegistroFallido.class);
         
     }
     

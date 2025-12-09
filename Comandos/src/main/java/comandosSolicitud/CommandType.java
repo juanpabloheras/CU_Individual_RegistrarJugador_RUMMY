@@ -43,7 +43,14 @@ public enum CommandType {
     COMANDO_AGREGAR_DIRECCION_JUGADOR("ComandoAgregarDireccionJugador"),
     
     COMANDO_PARTIDA_GANADA("ComandoPartidaGanada"),
-    COMANDO_JUGADOR_PARTIDA_GANADA("ComandoJugadorPartidaGanada");
+    COMANDO_JUGADOR_PARTIDA_GANADA("ComandoJugadorPartidaGanada"),
+    //COMANDOS METIDOS POR MI JUAN PABLO
+    COMANDO_RESPUESTA_OBTENER_JUGADORES("ComandoRespuestaObtenerJugadores"),
+    COMANDO_OBTENER_JUGADORES("ComandoObtenerJugadores"),
+    COMANDO_REGISTRO_EXITOSO("ComandoRegistroExitoso"),
+    COMANDO_REGISTRAR_JUGADOR("ComandoRegistrarJugador"),
+    COMANDO_REGISTRO_FALLIDO("ComandoRegistroFallido"),;
+    
 
     private final String nombre;
 
