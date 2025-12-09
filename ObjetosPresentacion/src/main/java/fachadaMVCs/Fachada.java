@@ -174,6 +174,8 @@ public class Fachada implements IFiltro {
                 modeloInicio.ejecutar(comando);
                 break;
     
+            case CommandType.COMANDO_RESPUESTA_CAMBIAR_VISTA:
+                modeloJuego.ejecutar(comando);
                 
             default:
                 throw new AssertionError();

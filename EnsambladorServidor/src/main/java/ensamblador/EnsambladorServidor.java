@@ -61,6 +61,7 @@ public class EnsambladorServidor {
             
             fachadaObjetosNegocio.setPartida(partida);
             
+            partida.setFiltroSiguiente(fachadaObjetosNegocio);
             // Conexión de componentes (Recepción).
             
             servidorServidor.setReceptor(colaMensajesRecibidos);
@@ -74,7 +75,7 @@ public class EnsambladorServidor {
             new Thread(servidorServidor).start();
             new Thread(colaMensajesRecibidos).start();
             
-            tablero.iniciarJuego();
+//            tablero.iniciarJuego();
                
             
         } catch (Exception ex) {

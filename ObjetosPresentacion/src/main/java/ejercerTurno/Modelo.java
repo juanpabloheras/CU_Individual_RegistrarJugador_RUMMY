@@ -51,6 +51,7 @@ import enumeradores.ColorFichaDTO;
 import interfaces.ICommand;
 import interfaces.IFiltro;
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -66,7 +67,7 @@ import java.util.Map;
  * depender todavía de las entidades finales.
  */
 public class Modelo implements IPublicador, IModelo, IFiltro {
-    
+
     private final String CODIGO_MENSAJE_INCIO_TURNO = "IT: ";
     private final String CODIGO_MENSAJE_CAMBIO_TURNO = "CT: ";
     private final String CODIGO_MENSAJE_RESPUESTA_MOVIMIENTO = "RM: ";
@@ -77,51 +78,49 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     private final String CODIGO_MENSAJE_RESPONDER_CONFIRMACION_SOLICITUD_FIN = "RC: ";
     private final String CODIGO_MENSAJE_PARTIDA_GANADA = "PG: ";
     private final String CODIGO_MENSAJE_JUGADOR_PARTIDA_GANADA = "JG: ";
-    
-    private boolean partidaIniciada = false; 
-    
+
+    private boolean partidaIniciada = false;
+
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
      */
     private List<ISuscriptor> suscriptores = new ArrayList<>();
-    
+
     /**
      * Indica si el tablero actual es inválido.
      */
-    
     private boolean tableroInvalido;
     /**
      * Indica si la vista está habilitada para interactuar.
      */
-    
+
     private boolean vistaHabilitada;
     /**
      * Indica si el último movimiento realizado fue inválido.
      */
-    
+
     private boolean movimientoInvalido;
-    
+
     private boolean nuevoTurno;
-    
+
     private String mensaje;
-    
+
     private TableroDTO tablero;
-    
+
     /**
      * Filtro al que se enviará la solicitud.
      */
     private IFiltro filtroEnvioMensaje;
-    
+
 //    private TableroDTO tableroQuitar;
-    
     /**
      * Nombre del jugador.
      */
     private String nombreJugador;
-        
+
     private Map<Integer, Color> mapaColores;
-    
-    public Modelo(String nombreJugador){
+
+    public Modelo(String nombreJugador) {
         this.nombreJugador = nombreJugador;
     }
 
@@ -150,8 +149,8 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     /**
      * Indica si el tableroQuitar es inválido.
      *
-     * @return {@code true} si el tableroQuitar no cumple las reglas, {@code false} en
-     * caso contrario.
+     * @return {@code true} si el tableroQuitar no cumple las reglas,
+     * {@code false} en caso contrario.
      */
     @Override
     public boolean isTableroInvalido() {
@@ -162,7 +161,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * Define si el tableroQuitar es inválido.
      *
      * @param tableroInvalido valor booleano indicando si el tableroQuitar es
- inválido.
+     * inválido.
      */
     public void setTableroInvalido(boolean tableroInvalido) {
         this.tableroInvalido = tableroInvalido;
@@ -213,11 +212,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param posicionesFichas arreglo con las posiciones seleccionadas.
      */
     public void seleccionarFichasTablero(Integer[] posicionesFichas) {
-        
+
         ICommand comandoSeleccionarFichasTablero = new ComandoSeleccionarFichasTablero(posicionesFichas, nombreJugador);
-        
+
         filtroEnvioMensaje.ejecutar(comandoSeleccionarFichasTablero);
-        
+
     }
 
     /**
@@ -226,11 +225,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param posicionesFichas arreglo de posiciones de fichas a eliminar.
      */
     public void quitarFichasJugador(Integer[] posicionesFichas) {
-        
+
         ICommand comandoQuitarFichasJugador = new ComandoQuitarFichasJugador(posicionesFichas, nombreJugador);
-        
+
         filtroEnvioMensaje.ejecutar(comandoQuitarFichasJugador);
-        
+
     }
 
     /**
@@ -239,9 +238,9 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param idFichas colección de IDs de fichas a eliminar.
      */
     public void quitarFichasTablero(Integer[] idsFichas) {
-        
+
         ICommand comandoQuitarFichasTablero = new ComandoQuitarFichasTablero(idsFichas, nombreJugador);
-        
+
         filtroEnvioMensaje.ejecutar(comandoQuitarFichasTablero);
 
     }
@@ -253,13 +252,13 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
      */
     public void agregarFichasJugador(Integer[] idsFichas) {
-        
+
         ICommand comandoAgregarFichasJugador = new ComandoAgregarFichasJugador(idsFichas, nombreJugador);
-        
+
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasJugador);
-        
+
     }
-    
+
     /**
      * Agrega fichas a un grupo ya existente del tablero.
      *
@@ -267,11 +266,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
      */
     public void agregarFichasTablero(Integer[] idsFichas, Integer[] idsFichasGrupo) {
-        
+
         ICommand comandoAgregarFichasTableroGrupo = new ComandoAgregarFichasTableroGrupo(idsFichas, idsFichasGrupo, nombreJugador);
-        
+
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasTableroGrupo);
-        
+
     }
 
     /**
@@ -280,225 +279,223 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param idsFichas colección de IDs de fichas a agregar.
      */
     public void agregarFichasTablero(Integer[] idsFichas) {
-        
+
         ICommand comandoAgregarFichasTablero = new ComandoAgregarFichasTablero(idsFichas, nombreJugador);
-        
+
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasTablero);
-        
+
     }
-    
-    public void tomarFicha(){
-        
+
+    public void tomarFicha() {
+
         ICommand comandoTomarFicha = new ComandoTomarFicha(nombreJugador);
-        
+
         filtroEnvioMensaje.ejecutar(comandoTomarFicha);
-        
+
     }
-    
-    public void reestablecerTablero(){
-        
+
+    public void reestablecerTablero() {
+
         ICommand comandoReestablecerTablero = new ComandoReestablecerTablero(nombreJugador);
-        
+
         filtroEnvioMensaje.ejecutar(comandoReestablecerTablero);
     }
-    
+
     /**
      * Finaliza el turno actual y pasa al siguiente jugador. Si el tablero no es
      * válido, se marca el estado correspondiente.
      */
     public void terminarTurno() {
-        
+
         ICommand comandoFinalizarTurno = new ComandoTerminarTurno(nombreJugador);
         filtroEnvioMensaje.ejecutar(comandoFinalizarTurno);
 
     }
-    
-    public void abandonarPartida(){
-        
+
+    public void abandonarPartida() {
+
         ComandoAbandonar comandoAbandonar = new ComandoAbandonar(nombreJugador);
         filtroEnvioMensaje.ejecutar(comandoAbandonar);
-        
-    }
-    
-    public void finalizarPartida(){
-        
-        ComandoSolicitarFin comandoSolicitarFin = new ComandoSolicitarFin(nombreJugador);
-        
-        filtroEnvioMensaje.ejecutar(comandoSolicitarFin);
-        
-    }
-    
-    public void confirmarAbandonoPartida(boolean confirmacion){
-        
-        ComandoConfirmacionAbandonar comandoConfirmacionAbandonar 
-                = new ComandoConfirmacionAbandonar(nombreJugador, confirmacion);
-        
-        filtroEnvioMensaje.ejecutar(comandoConfirmacionAbandonar);
-        
-    }
-    
-    public void confirmarSolicitudFin(boolean confirmacion){
-        
-        ComandoConfirmacionSolicitarFin comandoConfirmacionSolicitarFin 
-                = new ComandoConfirmacionSolicitarFin(nombreJugador, confirmacion);
-        
-        filtroEnvioMensaje.ejecutar(comandoConfirmacionSolicitarFin);
-        
-    }
-    
 
-    public void iniciarTurno(TableroDTO tablero, String mensaje){
-    
+    }
+
+    public void finalizarPartida() {
+
+        ComandoSolicitarFin comandoSolicitarFin = new ComandoSolicitarFin(nombreJugador);
+
+        filtroEnvioMensaje.ejecutar(comandoSolicitarFin);
+
+    }
+
+    public void confirmarAbandonoPartida(boolean confirmacion) {
+
+        ComandoConfirmacionAbandonar comandoConfirmacionAbandonar
+                = new ComandoConfirmacionAbandonar(nombreJugador, confirmacion);
+
+        filtroEnvioMensaje.ejecutar(comandoConfirmacionAbandonar);
+
+    }
+
+    public void confirmarSolicitudFin(boolean confirmacion) {
+
+        ComandoConfirmacionSolicitarFin comandoConfirmacionSolicitarFin
+                = new ComandoConfirmacionSolicitarFin(nombreJugador, confirmacion);
+
+        filtroEnvioMensaje.ejecutar(comandoConfirmacionSolicitarFin);
+
+    }
+
+    public void iniciarTurno(TableroDTO tablero, String mensaje) {
+
         this.nuevoTurno = true;
         this.tablero = tablero;
         vistaHabilitada = true;
         this.mensaje = CODIGO_MENSAJE_INCIO_TURNO + mensaje;
-        
+
         notificar();
-        
+
     }
-    
-    private void cambiarTurno(TableroDTO tablero, String mensaje){
-        
+
+    private void cambiarTurno(TableroDTO tablero, String mensaje) {
+
         this.nuevoTurno = true;
         this.tablero = tablero;
         vistaHabilitada = false;
         this.mensaje = CODIGO_MENSAJE_CAMBIO_TURNO + mensaje;
-        
+
         notificar();
-        
+
     }
-    
-    private void responderMovimiento(TableroDTO tablero, boolean movimientoValido, String mensaje){
-        
+
+    private void responderMovimiento(TableroDTO tablero, boolean movimientoValido, String mensaje) {
+
         this.nuevoTurno = false;
         this.tablero = tablero;
         this.movimientoInvalido = !movimientoValido;
-        
-        if(mensaje != null){
+
+        if (mensaje != null) {
             this.mensaje = CODIGO_MENSAJE_RESPUESTA_MOVIMIENTO + mensaje;
-        } else{
+        } else {
             this.mensaje = null;
         }
-        
+
         notificar();
     }
-    
-    private void tomarFicha(TableroDTO tablero){
-        
+
+    private void tomarFicha(TableroDTO tablero) {
+
         this.nuevoTurno = false;
         this.tablero = tablero;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = null;
-        
+
         notificar();
-        
+
     }
-    
-    private void reestablecerTablero(TableroDTO tablero){
-        
+
+    private void reestablecerTablero(TableroDTO tablero) {
+
         this.nuevoTurno = true;
         this.tablero = tablero;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = null;
-        
+
         notificar();
-        
+
     }
-    
-    private void avisarTableroInvalido(String mensaje){
-        
+
+    private void avisarTableroInvalido(String mensaje) {
+
         this.nuevoTurno = false;
         this.tableroInvalido = true;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = CODIGO_MENSAJE_TABLERO_INVALIDO + mensaje;
-        
+
         notificar();
-        
+
     }
-    
-    private void responderSolicitudAbandono(String mensaje){
-        
+
+    private void responderSolicitudAbandono(String mensaje) {
+
         this.nuevoTurno = false;
         this.tableroInvalido = false;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = CODIGO_MENSAJE_SOLICITUD_ABANDONO + mensaje;
-        
+
         notificar();
-        
+
     }
-   
-    private void notificarAbandonoJugador(String mensaje){
-        
+
+    private void notificarAbandonoJugador(String mensaje) {
+
         this.nuevoTurno = false;
         this.tableroInvalido = false;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = CODIGO_MENSAJE_ABANDONO_JUGADOR + mensaje;
-        
+
         notificar();
-        
+
     }
-    
-    public void responderSolicitudFin(String mensaje){
-        
+
+    public void responderSolicitudFin(String mensaje) {
+
         this.nuevoTurno = false;
         this.tableroInvalido = false;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = CODIGO_MENSAJE_RESPONDER_SOLICITUD_FIN + mensaje;
-        
+
         notificar();
-        
+
     }
-    
-    private void responderConfirmacionSolicitudFin(String mensaje){
-        
+
+    private void responderConfirmacionSolicitudFin(String mensaje) {
+
         this.nuevoTurno = false;
         this.tableroInvalido = false;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = CODIGO_MENSAJE_RESPONDER_CONFIRMACION_SOLICITUD_FIN + mensaje;
-        
+
         notificar();
-        
+
     }
-    
-    private void notificarPartidaGanada(String mensaje){
-        
+
+    private void notificarPartidaGanada(String mensaje) {
+
         this.nuevoTurno = false;
         this.tableroInvalido = false;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = CODIGO_MENSAJE_PARTIDA_GANADA + mensaje;
-        
+
         notificar();
-        
+
     }
-    
-    private void notificarJugadorPartidaGanada(String mensaje){
-        
+
+    private void notificarJugadorPartidaGanada(String mensaje) {
+
         this.nuevoTurno = false;
         this.tableroInvalido = false;
         this.movimientoInvalido = false;
-        
+
         this.mensaje = CODIGO_MENSAJE_JUGADOR_PARTIDA_GANADA + mensaje;
-        
+
         notificar();
-        
+
     }
-    
-    private void terminarJuego(){
-        
+
+    private void terminarJuego() {
+
         System.exit(0);
-        
+
     }
-    
-    
+
     /**
      * Suscribe una nueva vista (suscriptor) al modelo.
      *
@@ -532,39 +529,39 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
 
     @Override
     public JugadorPrincipalPresentacionDTO obtenerJugadorPrincipal() {
-        
+
         List<FichaDTO> fichasDTO = tablero.getJugadorTurno().getFichas();
-        
+
         List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
-        
+
         for (FichaDTO fichaDTO : fichasDTO) {
-            
+
             FichaPresentacionDTO fichaPresentacion = obtenerFichaPresentacionDTO(fichaDTO);
             fichasPresentacion.add(fichaPresentacion);
-            
+
         }
-        
+
         FichaPresentacionDTO[] fichasArreglo = fichasPresentacion.toArray(new FichaPresentacionDTO[0]);
-        
+
         return new JugadorPrincipalPresentacionDTO(fichasArreglo);
     }
 
     @Override
     public MontonPresentacionDTO obtenerMontonPresentacion() {
-        
+
         return obtenerMontonPresentacionDTO(tablero.getMonton());
-        
+
     }
-    
-    private MontonPresentacionDTO obtenerMontonPresentacionDTO(MontonDTO montonDTO){
-        
+
+    private MontonPresentacionDTO obtenerMontonPresentacionDTO(MontonDTO montonDTO) {
+
         return new MontonPresentacionDTO(montonDTO.getCantidadFichas());
-        
+
     }
 
     @Override
     public String obtenerMensaje() {
-        
+
         return mensaje;
 
     }
@@ -573,7 +570,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     public boolean isVistaHabilitada() {
         return vistaHabilitada;
     }
-    
+
     @Override
     public boolean isNuevoTurno() {
         return nuevoTurno;
@@ -581,67 +578,66 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
 
     @Override
     public JugadorExternoPresentacionDTO[] obtenerJugadoresExternos() {
-        
+
         JugadorDTO[] jugadores = tablero.getJugadores();
-        
+
         List<JugadorExternoPresentacionDTO> jugadoresExternosPresentacionDTO = new LinkedList<>();
-        
-        for(JugadorDTO jugador: jugadores){
+
+        for (JugadorDTO jugador : jugadores) {
 
             List<FichaDTO> fichasDTO = jugador.getFichas();
-           
+
             int cantidadFichasRestante = fichasDTO.size();
-            
+
             jugadoresExternosPresentacionDTO.add(new JugadorExternoPresentacionDTO(
-                    jugador.getAvatar(), 
+                    jugador.getAvatar(),
                     jugador.getNombre(),
                     cantidadFichasRestante));
-            
+
         }
 
-        JugadorExternoPresentacionDTO[] jugadoresExternosPresentacion 
+        JugadorExternoPresentacionDTO[] jugadoresExternosPresentacion
                 = jugadoresExternosPresentacionDTO.toArray(new JugadorExternoPresentacionDTO[0]);
-        
+
         return jugadoresExternosPresentacion;
-        
- 
+
     }
 
     @Override
     public TableroPresentacionDTO obtenerTablero() {
-        
+
         GrupoDTO[] grupos = tablero.getGrupos();
-        
+
         List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
-        
-        for(GrupoDTO grupo: grupos){
-            
+
+        for (GrupoDTO grupo : grupos) {
+
             List<FichaDTO> fichasDTO = grupo.getFichas();
-            
+
             fichasPresentacion.add(null);
-            for(FichaDTO fichaDTO: fichasDTO){
-                
+            for (FichaDTO fichaDTO : fichasDTO) {
+
                 fichasPresentacion.add(obtenerFichaPresentacionDTO(fichaDTO));
-                
+
             }
-            
+
         }
-        
-        TableroPresentacionDTO tableroPresentacion 
+
+        TableroPresentacionDTO tableroPresentacion
                 = new TableroPresentacionDTO(fichasPresentacion.toArray(new FichaPresentacionDTO[0]));
-        
+
         return tableroPresentacion;
-        
+
     }
-    
-    private FichaPresentacionDTO obtenerFichaPresentacionDTO(FichaDTO fichaDTO){
+
+    private FichaPresentacionDTO obtenerFichaPresentacionDTO(FichaDTO fichaDTO) {
 
         FichaPresentacionDTO fichaPresentacionDTO;
-        
-        if(fichaDTO instanceof FichaNormalDTO){
-            
+
+        if (fichaDTO instanceof FichaNormalDTO) {
+
             FichaNormalDTO fichaNormalDTO = (FichaNormalDTO) fichaDTO;
-            
+
             ColorFichaDTO colorFicha = fichaNormalDTO.getColor();
             ColorFichaPresentacionDTO colorFichaPresentacion;
 
@@ -652,10 +648,10 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
                     break;
                 case ColorFichaDTO.COLOR_B:
                     colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_B;
-                    break;   
+                    break;
                 case ColorFichaDTO.COLOR_C:
                     colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_C;
-                    break;  
+                    break;
                 case ColorFichaDTO.COLOR_D:
                     colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_D;
                     break;
@@ -663,167 +659,173 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
                 default:
                     throw new AssertionError();
             }
-        
-        fichaPresentacionDTO = new FichaNormalPresentacionDTO(
-                fichaNormalDTO.getNumero(), 
-                fichaNormalDTO.getId(),
-                colorFichaPresentacion);
-        
-            
-        } else{
-            
+
+            fichaPresentacionDTO = new FichaNormalPresentacionDTO(
+                    fichaNormalDTO.getNumero(),
+                    fichaNormalDTO.getId(),
+                    colorFichaPresentacion);
+
+        } else {
+
             FichaComodinDTO fichaComodinDTO = (FichaComodinDTO) fichaDTO;
-             
+
             fichaPresentacionDTO = new ComodinPresentacionDTO(
-                fichaComodinDTO.getValor(), 
-                fichaComodinDTO.getId());
-            
+                    fichaComodinDTO.getValor(),
+                    fichaComodinDTO.getId());
+
         }
-        
-        
-        
+
         return fichaPresentacionDTO;
-        
+
     }
 
     @Override
     public void ejecutar(ICommand comando) {
 
-        
         CommandType tipoComando = CommandType.fromNombre(comando.getType());
-        
+
         switch (tipoComando) {
             case CommandType.INICIAR_TURNO:
-                
+
                 ComandoIniciarTurno comandoIniciarTurno = (ComandoIniciarTurno) comando;
-                iniciarTurno( 
-                        comandoIniciarTurno.getTablero(), 
+                iniciarTurno(
+                        comandoIniciarTurno.getTablero(),
                         comandoIniciarTurno.getMensaje());
-                
+
                 break;
-                
+
             case CommandType.CAMBIO_TURNO:
-                
+
                 ComandoCambioTurno comandoCambioTurno = (ComandoCambioTurno) comando;
                 cambiarTurno(
                         comandoCambioTurno.getTablero(),
                         comandoCambioTurno.getMensaje());
 
                 break;
-                
+
             case CommandType.RESPUESTA_MOVIMIENTO:
-                
+
                 ComandoRespuestaMovimiento comandoRespuestaMovimiento = (ComandoRespuestaMovimiento) comando;
-                
+
                 responderMovimiento(
-                        comandoRespuestaMovimiento.getTablero(), 
+                        comandoRespuestaMovimiento.getTablero(),
                         comandoRespuestaMovimiento.isMovimientoValido(),
                         comandoRespuestaMovimiento.getMensaje());
-                
+
                 break;
-                
+
             case CommandType.COMANDO_TABLERO_INVALIDO:
-                
+
                 ComandoTableroInvalido comandoTableroInvalido = (ComandoTableroInvalido) comando;
-                
+
                 String mensaje = comandoTableroInvalido.getMensaje();
-                
+
                 avisarTableroInvalido(mensaje);
-                
+
                 break;
-                
+
             case CommandType.RESPUESTA_TOMAR_FICHA:
-                
+
                 ComandoRespuestaTomarFicha comandoRespuestaTomarFicha = (ComandoRespuestaTomarFicha) comando;
                 tomarFicha(
                         comandoRespuestaTomarFicha.getTablero());
 
                 break;
-                
+
             case CommandType.RESPUESTA_REESTABLECER:
-                
+
                 ComandoRespuestaReestablecer comandoRespuestaReestablecer = (ComandoRespuestaReestablecer) comando;
                 reestablecerTablero(
                         comandoRespuestaReestablecer.getTablero());
 
                 break;
-                
-                
+
             case CommandType.COMANDO_RESPUESTA_ABANDONAR:
-                
+
                 ComandoRespuestaAbandonar comandoRespuestaAbandonar = (ComandoRespuestaAbandonar) comando;
-                
+
                 responderSolicitudAbandono(comandoRespuestaAbandonar.getMensaje());
-                
+
                 break;
-                 
+
             case CommandType.COMANDO_JUGADOR_ABANDONO:
-                
+
                 ComandoJugadorAbandonoPartida comandoJugadorAbandonoPartida = (ComandoJugadorAbandonoPartida) comando;
-                
+
                 notificarAbandonoJugador(
                         comandoJugadorAbandonoPartida.getMensaje());
-                
+
                 break;
-                
+
             case CommandType.COMANDO_RESPUESTA_SOLICITAR_FIN:
-                
+
                 ComandoRespuestaSolicitarFin comandoRespuestaSolicitarFin = (ComandoRespuestaSolicitarFin) comando;
-                
+
                 comandoRespuestaSolicitarFin.getMensaje();
-                
+
                 responderSolicitudFin(comandoRespuestaSolicitarFin.getMensaje());
-                
+
                 break;
-                
+
             case CommandType.COMANDO_RESPUESTA_CONFIRMACION_SOLICITAR_FIN:
-                
+
                 ComandoRespuestaConfirmacionSolicitarFin comandoRespuestaConfirmacionSolicitarFin = (ComandoRespuestaConfirmacionSolicitarFin) comando;
-                
+
                 comandoRespuestaConfirmacionSolicitarFin.getMensaje();
-                
+
                 responderConfirmacionSolicitudFin(comandoRespuestaConfirmacionSolicitarFin.getMensaje());
-                
+
                 break;
-                
+
             case CommandType.COMANDO_FIN_PARTIDA:
-                
+
                 ComandoFinPartida comandoFinPartida = (ComandoFinPartida) comando;
-                
+
                 terminarJuego();
-                
+
                 break;
-                
+
             case CommandType.COMANDO_PARTIDA_GANADA:
-                
+
                 ComandoPartidaGanada comandoPartidaGanada = (ComandoPartidaGanada) comando;
-                
+
                 notificarPartidaGanada(comandoPartidaGanada.getMensaje());
-                 
+
                 break;
-                
+
             case CommandType.COMANDO_JUGADOR_PARTIDA_GANADA:
-                
+
                 ComandoJugadorPartidaGanada comandoJugadorPartidaGanada = (ComandoJugadorPartidaGanada) comando;
-                
+
                 notificarJugadorPartidaGanada(comandoJugadorPartidaGanada.getMensaje());
-                 
+
                 break;
-            
+
             case CommandType.COMANDO_RESPUESTA_CAMBIAR_VISTA:
                 ComandoRespuestaCambiarVista comandoRespuestaCambiarVista = (ComandoRespuestaCambiarVista) comando;
-                this.mapaColores = comandoRespuestaCambiarVista.getMapaColores();
-                this.nombreJugador = comandoRespuestaCambiarVista.getNombreJugador();
-                cambiarVista();
 
-                
+                Map<Integer, String> mapaHex = comandoRespuestaCambiarVista.getMapaColores();
+                Map<Integer, Color> mapaColoresConvertido = new HashMap<>();
+
+                for (Map.Entry<Integer, String> entry : mapaHex.entrySet()) {
+                    String hex = entry.getValue();  // "#RRGGBB"
+                    Color c = Color.decode(hex);    // ← convierte hex a Color real
+                    mapaColoresConvertido.put(entry.getKey(), c);
+                }
+
+                this.mapaColores = mapaColoresConvertido;
+                this.nombreJugador = comandoRespuestaCambiarVista.getNombreJugador();
+
+                cambiarVista();
+                break;
+
             default:
                 throw new AssertionError();
         }
-        
+
     }
-    
-    private void cambiarVista(){
+
+    private void cambiarVista() {
         partidaIniciada = true;
         notificar();
     }
@@ -837,6 +839,5 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     public Map<Integer, Color> getMapaColores() {
         return mapaColores;
     }
-
 
 }

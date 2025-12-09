@@ -39,7 +39,7 @@ public class ComandoRegistrarJugador implements ICommand{
 
     @Override
     public String getNombreJugador() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return nombreJugador;
     }
 
     public String getIP() {

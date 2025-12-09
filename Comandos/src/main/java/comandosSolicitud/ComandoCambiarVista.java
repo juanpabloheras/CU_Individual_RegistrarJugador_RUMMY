@@ -15,18 +15,18 @@ import java.util.Map;
 public class ComandoCambiarVista implements ICommand {
     private String nombreJugador;
     private final String type = "ComandoCambiarVista";
-    private Map<Integer, Color> mapaColores;
+    private Map<Integer, String> mapaColores;
 
-    public ComandoCambiarVista(String nombreJugador, Map<Integer, Color> mapaColores) {
+    public ComandoCambiarVista(String nombreJugador, Map<Integer, String> mapaColores) {
         this.nombreJugador = nombreJugador;
         this.mapaColores = mapaColores;
     }
 
-    public Map<Integer, Color> getMapaColores() {
+    public Map<Integer, String> getMapaColores() {
         return mapaColores;
     }
 
-    public void setMapaColores(Map<Integer, Color> mapaColores) {
+    public void setMapaColores(Map<Integer, String> mapaColores) {
         this.mapaColores = mapaColores;
     }
     
@@ -40,7 +40,7 @@ public class ComandoCambiarVista implements ICommand {
 
     @Override
     public String getNombreJugador() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return nombreJugador;
     }
 
     @Override

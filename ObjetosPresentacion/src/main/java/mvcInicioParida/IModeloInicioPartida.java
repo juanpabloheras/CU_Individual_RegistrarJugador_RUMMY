@@ -2,7 +2,9 @@
 package mvcInicioParida;
 
 import dto.JugadorDTO;
+import java.awt.Color;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,4 +18,8 @@ public interface IModeloInicioPartida {
     String obtenerMensaje();
 
     List<JugadorDTO> cargarJugadores();
+    
+    Map<Integer, Color> getMapaColores();
+    
+    String obtenerNombreJugador();
 }

@@ -177,8 +177,10 @@ public class Partida {
                     filtroSiguiente.enviarComando(comandoRespuesta);
                 }
                   
+                break;
             case CommandType.COMANDO_CAMBIAR_VISTA:
                 ComandoCambiarVista comandoCambiarVista = (ComandoCambiarVista) comando;
+                tablero.iniciarJuego();
                 ICommand comandoRespuesta = new ComandoRespuestaCambiarVista(comandoCambiarVista.getNombreJugador(), comandoCambiarVista.getMapaColores());
                 filtroSiguiente.enviarComando(comandoRespuesta);
                 break;
@@ -188,6 +190,11 @@ public class Partida {
         }
 
     }
+
+    public void setFiltroSiguiente(FachadaObjetosNegocio filtroSiguiente) {
+        this.filtroSiguiente = filtroSiguiente;
+    }
+    
 
     private void actualizarJugador(String nombre, String avatar) {
         for (Jugador jugador : tablero.getJugadores()) {

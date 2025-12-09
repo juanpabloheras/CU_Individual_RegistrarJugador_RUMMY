@@ -1,7 +1,9 @@
 
 package objetos_negocio;
 
+import java.awt.Color;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Clase que representa un jugador en el tablero
@@ -13,6 +15,7 @@ public class Jugador {
     private String nombre;
     private boolean primerTurno;
     private List<Ficha> fichas;
+    private Map<Integer, Color> colorFichasReales;
 
     public Jugador(String avatar, String nombre, boolean primerTurno, List<Ficha> fichas) {
         this.avatar = avatar;

@@ -5,6 +5,7 @@ import comandoEnvolvente.ComandoEnvolvente;
 import comandosRespuesta.ComandoRegistroExitoso;
 import comandosRespuesta.ComandoRegistroFallido;
 import comandosRespuesta.ComandoRespuestaObtenerJugadores;
+import comandosSolicitud.ComandoCambiarVista;
 import comandosSolicitud.ComandoObtenerJugadores;
 import comandosSolicitud.ComandoRegistrarJugador;
 import comandosSolicitud.CommandType;
@@ -22,6 +23,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -36,9 +38,8 @@ import java.util.logging.Logger;
 public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida, IFiltro {
 
 //    private String ipReal;
-    
-    private String nombreJugador;
-    
+    private String nombreJugador = "JuanH";
+
     Map<Integer, Color> mapaColores;
 
     List<ISuscriptor> suscriptores = new ArrayList<>();
@@ -101,8 +102,6 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida, I
     public void setFiltroSiguiente(IFiltro filtroSiguiente) {
         this.filtroSiguiente = filtroSiguiente;
     }
-    
-    
 
     /**
      * Método para añadir a la lista de suscriptores .
@@ -199,9 +198,11 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida, I
         return jugadoresRegistrados;
     }
 
-    
-    /***
-     * Método que crea un comando para que un jugador ya unido a la partida(con dirección ip y nobmre registrado) actualice su avatar
+    /**
+     * *
+     * Método que crea un comando para que un jugador ya unido a la partida(con
+     * dirección ip y nobmre registrado) actualice su avatar
+     *
      * @param mapaColores mapa de los colores seleccionados por el usuario
      * @param avatar link del avatar que el usuario utilizará.
      */
@@ -210,12 +211,22 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida, I
         ICommand comandoRegistro = new ComandoRegistrarJugador(nombreJugador, avatar);
         filtroSiguiente.ejecutar(comandoRegistro);
     }
-    
-    public void cambiarVista(){
-        
+
+    public void cambiarVista() {
+        Map<Integer, String> mapaHex = new HashMap<>();
+
+        for (Map.Entry<Integer, Color> entry : mapaColores.entrySet()) {
+            Color c = entry.getValue();
+            String hex = String.format("#%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
+            mapaHex.put(entry.getKey(), hex);
+        }
+
+        ICommand comandoCambioVista = new ComandoCambiarVista(nombreJugador, mapaHex);
+        filtroSiguiente.ejecutar(comandoCambioVista);
+
     }
 //
-    
+
 //    Esto ya no se hará ya que al momento de hacer el CU unirse a partida se solicitará el nombre del jugador. 
 //    public void enviarRegistro(String nombre, String avatar) {
 //        ICommand comandoRegistro = new ComandoRegistrarJugador(nombre, avatar, ipReal, "8085");
@@ -251,5 +262,9 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida, I
 //
 //        return "0.0.0.0"; // fallback en caso de error
 //    }
+    @Override
+    public String obtenerNombreJugador() {
+        return nombreJugador;
+    }
 
 }

@@ -21,4 +21,8 @@ public class ControlInicioPartida {
         modelo.enviarRegistro(avatar, mapaColores);
     }
     
+    public void abrirTablero(){
+        modelo.cambiarVista();
+    }
+    
 }

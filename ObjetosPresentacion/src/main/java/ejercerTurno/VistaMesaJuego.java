@@ -407,57 +407,64 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
     @Override
     public void actualizar(IModelo modelo) {
-
+// 1) Mostrar u ocultar vista
         if (modelo.isPartidaIniciada()) {
             this.setVisible(true);
             this.mapaColoresJugador = modelo.getMapaColores();
         } else {
             this.setVisible(false);
+            return;
         }
 
-        JugadorPrincipalPresentacionDTO jugadorPrincipalPresentacionDTO = modelo.obtenerJugadorPrincipal();
-        JugadorExternoPresentacionDTO[] jugadoresExternoPresentacionDTOs = modelo.obtenerJugadoresExternos();
-        TableroPresentacionDTO tableroPresentacionDTO = modelo.obtenerTablero();
-        MontonPresentacionDTO montonPresentacionDTO = modelo.obtenerMontonPresentacion();
+        // 2) Obtener DTOs del modelo
+        JugadorPrincipalPresentacionDTO jugadorPrincipalDTO = modelo.obtenerJugadorPrincipal();
+        JugadorExternoPresentacionDTO[] jugadoresExternosDTO = modelo.obtenerJugadoresExternos();
+        TableroPresentacionDTO tableroDTO = modelo.obtenerTablero();
+        MontonPresentacionDTO montonDTO = modelo.obtenerMontonPresentacion();
         String mensaje = modelo.obtenerMensaje();
-
-        JugadorExternoInformacionPanel[] jugadoresExternosInformacionPanel
-                = obtenerJugadoresExternoInformacion(jugadoresExternoPresentacionDTOs);
-
-        JugadorPrincipalInformacionPanel jugadorPrincipalInformacionPanel
-                = obtenerJugadorPrincipalInformacionPanel(jugadorPrincipalPresentacionDTO);
-
-        MontonInformacionPanel montonInformacionPanel = obtenerMontonInformacionPanel(montonPresentacionDTO);
-
         boolean nuevoTurno = modelo.isNuevoTurno();
 
-        TableroInformacionPanel tableroInformacionPanel = obtenerTableroInformacionPanel(tableroPresentacionDTO, nuevoTurno);
+        // 3) Convertir DTOs a Panels
+        JugadorPrincipalInformacionPanel jugadorPrincipalPanel
+                = obtenerJugadorPrincipalInformacionPanel(jugadorPrincipalDTO);
 
+        JugadorExternoInformacionPanel[] jugadoresExternosPanel
+                = obtenerJugadoresExternoInformacion(jugadoresExternosDTO);
+
+        TableroInformacionPanel tableroPanel
+                = obtenerTableroInformacionPanel(tableroDTO, nuevoTurno);
+
+        MontonInformacionPanel montonPanel
+                = obtenerMontonInformacionPanel(montonDTO);
+
+        // 4) Actualizar contadores de fichas
         movimientoInvalido = modelo.isMovimientoInvalido();
         tableroInvalido = modelo.isTableroInvalido();
-
         actualizarMapaCasillasFichas(!movimientoInvalido);
 
+        // 5) Crear EstadoActual
         EstadoActual estadoActual = new EstadoActual(
-                jugadoresExternosInformacionPanel,
-                jugadorPrincipalInformacionPanel,
-                montonInformacionPanel,
-                tableroInformacionPanel,
+                jugadoresExternosPanel,
+                jugadorPrincipalPanel,
+                montonPanel,
+                tableroPanel,
                 mensaje,
                 !movimientoInvalido,
-                !tableroInvalido);
+                !tableroInvalido
+        );
 
-        VisitorPintar visitorPintar = crearVisitorPintar(estadoActual);
+        // 6) Visitor para repintar UI
+        VisitorPintar visitor = new VisitorPintar(estadoActual);
 
         for (IComponente componente : componentes) {
-            componente.aceptar(visitorPintar);
+            componente.aceptar(visitor);
         }
+
         repaint();
         revalidate();
 
-        boolean vistaHabilitada = modelo.isVistaHabilitada();
-
-        habilitarVista(vistaHabilitada);
+        // 7) Habilitar/deshabilitar vista
+        habilitarVista(modelo.isVistaHabilitada());
 
     }
 

@@ -12,9 +12,9 @@ import java.util.Map;
 public class ComandoRespuestaCambiarVista implements ICommand{
     private String nombreJugador;
     private final String type = "ComandoRespuestaCambiarVista";
-    private Map<Integer, Color> mapaColores;
+    private Map<Integer, String> mapaColores;
 
-    public ComandoRespuestaCambiarVista(String nombreJugador, Map<Integer, Color> mapaColores) {
+    public ComandoRespuestaCambiarVista(String nombreJugador, Map<Integer, String> mapaColores) {
         this.nombreJugador = nombreJugador;
         this.mapaColores = mapaColores;
     }
@@ -30,11 +30,11 @@ public class ComandoRespuestaCambiarVista implements ICommand{
         return nombreJugador;
     }
 
-    public Map<Integer, Color> getMapaColores() {
+    public Map<Integer, String> getMapaColores() {
         return mapaColores;
     }
 
-    public void setMapaColores(Map<Integer, Color> mapaColores) {
+    public void setMapaColores(Map<Integer, String> mapaColores) {
         this.mapaColores = mapaColores;
     }
     

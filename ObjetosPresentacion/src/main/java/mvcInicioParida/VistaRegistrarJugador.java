@@ -425,6 +425,7 @@ public class VistaRegistrarJugador extends javax.swing.JFrame implements ISuscri
     public void actualizar(IModeloInicioPartida modelo) {
         if (modelo.isJugadorRegistrado()) {
             this.dispose();
+            control.abrirTablero();
             //CONTROL.INICIARTABLERO(MAPACOLORES, NOMBREJUGADOR)
         } else {
             JOptionPane.showMessageDialog(this, modelo.obtenerMensaje());
