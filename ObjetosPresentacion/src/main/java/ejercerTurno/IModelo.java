@@ -5,6 +5,8 @@ import dto.JugadorExternoPresentacionDTO;
 import dto.JugadorPrincipalPresentacionDTO;
 import dto.MontonPresentacionDTO;
 import dto.TableroPresentacionDTO;
+import java.awt.Color;
+import java.util.Map;
 
 
 public interface IModelo {
@@ -26,5 +28,9 @@ public interface IModelo {
     public abstract boolean isMovimientoInvalido();
     
     public abstract boolean isNuevoTurno();
+    
+    public abstract boolean isPartidaIniciada();
+    
+    public abstract Map<Integer, Color> getMapaColores();
     
 }

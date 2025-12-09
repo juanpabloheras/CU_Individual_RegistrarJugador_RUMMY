@@ -7,6 +7,7 @@ import comandosRespuesta.ComandoJugadorAbandonoPartida;
 import comandosRespuesta.ComandoJugadorPartidaGanada;
 import comandosRespuesta.ComandoPartidaGanada;
 import comandosRespuesta.ComandoRespuestaAbandonar;
+import comandosRespuesta.ComandoRespuestaCambiarVista;
 import comandosRespuesta.ComandoRespuestaConfirmacionSolicitarFin;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoRespuestaReestablecer;
@@ -49,6 +50,8 @@ import enumeradores.ColorFichaDTO;
 
 import interfaces.ICommand;
 import interfaces.IFiltro;
+import java.awt.Color;
+import java.util.Map;
 
 /**
  * Clase Modelo que representa la parte lógica del patrón MVC para el caso de
@@ -74,6 +77,8 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     private final String CODIGO_MENSAJE_RESPONDER_CONFIRMACION_SOLICITUD_FIN = "RC: ";
     private final String CODIGO_MENSAJE_PARTIDA_GANADA = "PG: ";
     private final String CODIGO_MENSAJE_JUGADOR_PARTIDA_GANADA = "JG: ";
+    
+    private boolean partidaIniciada = false; 
     
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
@@ -113,6 +118,8 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * Nombre del jugador.
      */
     private String nombreJugador;
+        
+    private Map<Integer, Color> mapaColores;
     
     public Modelo(String nombreJugador){
         this.nombreJugador = nombreJugador;
@@ -802,13 +809,33 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
                 notificarJugadorPartidaGanada(comandoJugadorPartidaGanada.getMensaje());
                  
                 break;
-
+            
+            case CommandType.COMANDO_RESPUESTA_CAMBIAR_VISTA:
+                ComandoRespuestaCambiarVista comandoRespuestaCambiarVista = (ComandoRespuestaCambiarVista) comando;
+                this.mapaColores = comandoRespuestaCambiarVista.getMapaColores();
+                this.nombreJugador = comandoRespuestaCambiarVista.getNombreJugador();
+                cambiarVista();
 
                 
             default:
                 throw new AssertionError();
         }
         
+    }
+    
+    private void cambiarVista(){
+        partidaIniciada = true;
+        notificar();
+    }
+
+    @Override
+    public boolean isPartidaIniciada() {
+        return partidaIniciada;
+    }
+
+    @Override
+    public Map<Integer, Color> getMapaColores() {
+        return mapaColores;
     }
 
 

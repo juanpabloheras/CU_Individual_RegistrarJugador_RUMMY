@@ -49,6 +49,8 @@ public enum CommandType {
     COMANDO_OBTENER_JUGADORES("ComandoObtenerJugadores"),
     COMANDO_REGISTRO_EXITOSO("ComandoRegistroExitoso"),
     COMANDO_REGISTRAR_JUGADOR("ComandoRegistrarJugador"),
+    COMANDO_CAMBIAR_VISTA("ComandoCambiarVista"),
+    COMANDO_RESPUESTA_CAMBIAR_VISTA("ComandoRespuestaCambiarVista"),
     COMANDO_REGISTRO_FALLIDO("ComandoRegistroFallido"),;
     
 

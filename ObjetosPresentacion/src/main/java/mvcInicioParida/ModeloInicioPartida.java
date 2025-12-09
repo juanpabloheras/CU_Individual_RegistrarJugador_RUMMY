@@ -210,6 +210,10 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida, I
         ICommand comandoRegistro = new ComandoRegistrarJugador(nombreJugador, avatar);
         filtroSiguiente.ejecutar(comandoRegistro);
     }
+    
+    public void cambiarVista(){
+        
+    }
 //
     
 //    Esto ya no se hará ya que al momento de hacer el CU unirse a partida se solicitará el nombre del jugador. 

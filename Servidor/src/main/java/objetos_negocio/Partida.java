@@ -2,10 +2,12 @@ package objetos_negocio;
 
 import comandosRespuesta.ComandoRegistroExitoso;
 import comandosRespuesta.ComandoRegistroFallido;
+import comandosRespuesta.ComandoRespuestaCambiarVista;
 import comandosSolicitud.ComandoAbandonar;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
+import comandosSolicitud.ComandoCambiarVista;
 import comandosSolicitud.ComandoConfirmacionAbandonar;
 import comandosSolicitud.ComandoConfirmacionSolicitarFin;
 import comandosSolicitud.ComandoQuitarFichasJugador;
@@ -169,12 +171,16 @@ public class Partida {
                 if (validarRegistroJugadores(comandoRegistrarJugador.getAvatar())) {
                     actualizarJugador(comandoRegistrarJugador.getNombreJugador(), comandoRegistrarJugador.getAvatar());
                     ICommand comandoRespuesta = new ComandoRegistroExitoso(comandoRegistrarJugador.getNombreJugador());
-                    filtroSiguiente.ejecutar(comandoRespuesta);
+                    filtroSiguiente.enviarComando(comandoRespuesta);
                 } else {
                     ICommand comandoRespuesta = new ComandoRegistroFallido(comandoRegistrarJugador.getNombreJugador(), "El avatar seleccionado ya está en uso");
-                    filtroSiguiente.ejecutar(comandoRespuesta);
+                    filtroSiguiente.enviarComando(comandoRespuesta);
                 }
-
+                  
+            case CommandType.COMANDO_CAMBIAR_VISTA:
+                ComandoCambiarVista comandoCambiarVista = (ComandoCambiarVista) comando;
+                ICommand comandoRespuesta = new ComandoRespuestaCambiarVista(comandoCambiarVista.getNombreJugador(), comandoCambiarVista.getMapaColores());
+                filtroSiguiente.enviarComando(comandoRespuesta);
                 break;
 
             default:
